@@ -81,7 +81,7 @@ Admin registration requires a secret admin code.
 Endpoint:
 
 ```
-POST /api/v1/admin/register
+POST /api/v1/admins/signup
 ```
 
 Request Body:
