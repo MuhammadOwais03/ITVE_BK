@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
-from app.models.school import SchoolCollegeSignup
-from app.models.common import UserResponse
-from app.core.database import get_database
-from app.core.security import hash_password
+from models.school import SchoolCollegeSignup
+from models.common import UserResponse
+from core.database import get_database
+from core.security import hash_password
 from datetime import datetime
 
 router = APIRouter()

@@ -1,4 +1,4 @@
-from app.core.database import get_database
+from core.database import get_database
 
 db = get_database()
 admins_collection = db['Admins']
