@@ -7,10 +7,10 @@ from bson.errors import InvalidId
 from fastapi import HTTPException, status, UploadFile
 from pymongo.collection import Collection
 
-from app.core.database import get_database
-from app.core.config import settings
-from app.core.security import hash_password, verify_password
-from app.models.student import StudentSignup, UpdateStudent, StudentStatusUpdate
+from core.database import get_database
+from core.config import settings
+from core.security import hash_password, verify_password
+from models.student import StudentSignup, UpdateStudent, StudentStatusUpdate
 
 db = get_database()
 students_collection: Collection = db['Students']

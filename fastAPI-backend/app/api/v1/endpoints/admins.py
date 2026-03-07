@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, status
-from app.models.admin import AdminSignup
-from app.models.common import UserResponse
-from app.core.database import get_database
-from app.core.security import hash_password
-from app.core.config import settings
+from models.admin import AdminSignup
+from models.common import UserResponse
+from core.database import get_database
+from core.security import hash_password
+from core.config import settings
 from datetime import datetime
 
 router = APIRouter()

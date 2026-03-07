@@ -1,9 +1,13 @@
 from datetime import datetime
+import os
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field
-from app.models.common import UserResponse
-from app.core.database import get_database
-from app.core.security import verify_password, create_access_token, create_refresh_token
+from models.common import UserResponse
+from core.database import get_database
+from core.security import verify_password, create_access_token, create_refresh_token
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env file
 
 router = APIRouter()
 db = get_database()
@@ -17,7 +21,7 @@ class LoginRequest(BaseModel):
     username_or_email: str = Field(..., description="Enter your Email or Username")
     password: str = Field(..., min_length=8, description="Enter your password")
 
-@router.post("/login", response_model=UserResponse)
+@router.post("/login", response_model=UserResponse, summary="Login for all user types")
 async def login_user(data: LoginRequest):
     
     identifier = data.username_or_email
@@ -31,7 +35,22 @@ async def login_user(data: LoginRequest):
         (promoters_col, "Promoter")
     ]
 
-    
+    admin_username = os.getenv("ADMIN_USERNAME")
+    admin_password = os.getenv("ADMIN_PASSWORD")
+
+    if data.username_or_email == admin_username and data.password == admin_password:
+        user = await admins_col.find_one({"name": data.username_or_email})
+        user_type = "admin"
+        matched_collection = admins_col
+        return UserResponse(
+            id=str(user["_id"]),
+            email=user["email"],
+            user_type=user_type,
+            message="Admin login successful!",
+            access_token=create_access_token({"sub": str(user["_id"]), "user_type": user_type, "email": user["email"]}),
+            refresh_token=create_refresh_token({"sub": str(user["_id"]), "user_type": user_type, "email": user["email"]})
+        )
+
     for collection, role_name in collections_map:
         user_found = await collection.find_one({
             "$or": [
