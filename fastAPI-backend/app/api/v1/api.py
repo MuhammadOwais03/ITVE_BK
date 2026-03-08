@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from api.v1.endpoints import admins, students, schools, promoters, auth, users, add_worker, teacher, upload_documents
+from api.v1.endpoints import admins, students, schools, promoters, auth, users, add_worker, teacher, upload_documents, main_entities
 
 
 api_router = APIRouter()
@@ -13,3 +13,4 @@ api_router.include_router(users.router, prefix="/users", tags=["General Users"])
 api_router.include_router(add_worker.router, prefix="/workers", tags=["Workers"])
 api_router.include_router(teacher.router, prefix="/teachers", tags=["Teachers"])
 api_router.include_router(upload_documents.router, prefix="/documents", tags=["Worker Documents"])
+api_router.include_router(main_entities.router, prefix="/main", tags=["Main Entities"])

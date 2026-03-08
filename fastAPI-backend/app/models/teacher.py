@@ -1,5 +1,5 @@
 import re
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import Literal
 
 # ==================== Generate Teacher Account Schema ====================
@@ -29,11 +29,12 @@ class GenerateTeacherAccount(BaseModel):
             raise ValueError('Password must contain at least 1 special character')
         return v
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "course": "english",
                 "username": "teacher_user",
                 "password": "TeachPass@1"
             }
         }
+    )

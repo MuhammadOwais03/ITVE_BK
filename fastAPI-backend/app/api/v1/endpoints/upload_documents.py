@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Form, File, UploadFile
 import cloudinary
 import cloudinary.uploader
-import os
 from api.deps import get_current_user
 from core.database import get_database
+from core.config import settings
 
 db = get_database()
 workers_collection = db["Workers"]
@@ -11,9 +11,9 @@ workers_collection = db["Workers"]
 router = APIRouter()
 
 cloudinary.config(
-    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.getenv("CLOUDINARY_API_KEY"),
-    api_secret=os.getenv("CLOUDINARY_API_SECRET")
+    cloud_name=settings.CLOUDINARY_CLOUD_NAME,
+    api_key=settings.CLOUDINARY_API_KEY,
+    api_secret=settings.CLOUDINARY_API_SECRET
 )
 
 ALLOWED_IMAGE_TYPES = {"cnic": "cnic_image", "profile": "profile_image"}
