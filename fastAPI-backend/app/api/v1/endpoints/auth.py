@@ -1,13 +1,10 @@
 from datetime import datetime
-import os
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field
 from models.common import UserResponse
 from core.database import get_database
+from core.config import settings
 from core.security import verify_password, create_access_token, create_refresh_token
-from dotenv import load_dotenv
-
-load_dotenv()  # Load environment variables from .env file
 
 router = APIRouter()
 db = get_database()
@@ -35,10 +32,7 @@ async def login_user(data: LoginRequest):
         (promoters_col, "Promoter")
     ]
 
-    admin_username = os.getenv("ADMIN_USERNAME")
-    admin_password = os.getenv("ADMIN_PASSWORD")
-
-    if data.username_or_email == admin_username and data.password == admin_password:
+    if data.username_or_email == settings.ADMIN_USERNAME and data.password == settings.ADMIN_PASSWORD:
         user = await admins_col.find_one({"name": data.username_or_email})
         user_type = "admin"
         matched_collection = admins_col

@@ -19,8 +19,14 @@ venv/
 env/
 ENV/
 
-# Pytest cache
+# Pytest and testing
 .pytest_cache/
+tests/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
 
 # Editor directories and files
 .vscode/
@@ -34,6 +40,8 @@ Thumbs.db
 
 # Environment variables
 .env
+.env.local
+.env.*.local
 
 # Logs and databases
 *.log
@@ -42,6 +50,9 @@ Thumbs.db
 
 # Uploaded files (user uploads)
 uploads/
+
+# MyPy
+.mypy_cache/
 
 # Compiled Cython files
 *.pyx.c
@@ -53,6 +64,8 @@ uploads/
 # Temporary files
 *.tmp
 *.temp
+*~
+\#*#
 
 # JetBrains IDE caches
 .idea/
@@ -60,5 +73,5 @@ uploads/
 # Node
 node_modules/
 
-# If you want to keep tests versioned, remove test_endpoints.py from this list.
-# test_endpoints.py
+# Local history
+.history/

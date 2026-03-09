@@ -7,29 +7,7 @@
 cd fastAPI-backend
 ````
 
-### Step 2: Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
-Activate:
-
-**Windows**
-
-```bash
-venv\Scripts\activate
-```
-
-**macOS/Linux**
-
-```bash
-source venv/bin/activate
-```
-
----
-
-### Step 3: Install Dependencies
+### Step 2: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -37,7 +15,7 @@ pip install -r requirements.txt
 
 ---
 
-### Step 4: Configure Environment Variables
+### Step 3: Configure Environment Variables
 
 Create a `.env` file in the root directory:
 
@@ -52,7 +30,7 @@ ADMIN_SECRET_CODE=ADMIN2024SECRET
 
 ---
 
-### Step 5: Run the Server
+### Step 4: Run the Server
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload

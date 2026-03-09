@@ -1,6 +1,6 @@
 import re
 from typing import Literal
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, ConfigDict
 
 # ==================== Add Worker Schema ====================
 class AddWorker(BaseModel):
@@ -25,8 +25,8 @@ class AddWorker(BaseModel):
             raise ValueError('Username can only contain letters, numbers, and underscores')
         return v
 
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "name": "Worker Name",
                 "cnic": "1234567890123",
@@ -34,3 +34,4 @@ class AddWorker(BaseModel):
                 "username": "worker_user"
             }
         }
+    )
