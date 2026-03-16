@@ -8,6 +8,7 @@ class AddWorker(BaseModel):
     cnic: str = Field(..., min_length=13, max_length=13)
     job_type: Literal["reports", "courses"]
     username: str = Field(..., min_length=3, max_length=30, pattern=r'^[a-zA-Z0-9_]+$')
+    password: str = Field(..., min_length=8, max_length=72)
 
     @field_validator('cnic')
     @classmethod
@@ -25,13 +26,28 @@ class AddWorker(BaseModel):
             raise ValueError('Username can only contain letters, numbers, and underscores')
         return v
 
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v):
+        """Password must have at least 1 special char, 1 uppercase, and 1 lowercase letter"""
+        if len(v) < 8:
+            raise ValueError('Password must be at least 8 characters long')
+        if not re.search(r'[A-Z]', v):
+            raise ValueError('Password must contain at least 1 uppercase letter')
+        if not re.search(r'[a-z]', v):
+            raise ValueError('Password must contain at least 1 lowercase letter')
+        if not re.search(r'[!@#$%^&*(),.?":{}|<>]', v):
+            raise ValueError('Password must contain at least 1 special character')
+        return v
+
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
                 "name": "Worker Name",
                 "cnic": "1234567890123",
                 "job_type": "courses",
-                "username": "worker_user"
+                "username": "worker_user",
+                "password": "WorkerPass@1"
             }
         }
     )

@@ -13,6 +13,8 @@ students_col = db['Students']
 admins_col = db['Admins']
 schools_col = db['Schools']
 promoters_col = db['Promoters']
+workers_col = db['Workers']
+teachers_col = db['Teachers']
 
 class LoginRequest(BaseModel):
     username_or_email: str = Field(..., description="Enter your Email or Username")
@@ -29,20 +31,20 @@ async def login_user(data: LoginRequest):
         (students_col, "Student"),
         (admins_col, "Admin"),
         (schools_col, "School/College"),
-        (promoters_col, "Promoter")
+        (promoters_col, "Promoter"),
+        (workers_col, "worker"),
+        (teachers_col, "teacher")
     ]
 
-    if data.username_or_email == settings.ADMIN_USERNAME and data.password == settings.ADMIN_PASSWORD:
-        user = await admins_col.find_one({"name": data.username_or_email})
+    if data.username_or_email in (settings.ADMIN_USERNAME, settings.ADMIN_EMAIL) and data.password == settings.ADMIN_PASSWORD:
         user_type = "admin"
-        matched_collection = admins_col
         return UserResponse(
-            id=str(user["_id"]),
-            email=user["email"],
+            id=settings.ADMIN_ID,
+            email=settings.ADMIN_EMAIL,
             user_type=user_type,
             message="Admin login successful!",
-            access_token=create_access_token({"sub": str(user["_id"]), "user_type": user_type, "email": user["email"]}),
-            refresh_token=create_refresh_token({"sub": str(user["_id"]), "user_type": user_type, "email": user["email"]})
+            access_token=create_access_token({"sub": settings.ADMIN_ID, "user_type": user_type, "email": settings.ADMIN_EMAIL}),
+            refresh_token=create_refresh_token({"sub": settings.ADMIN_ID, "user_type": user_type, "email": settings.ADMIN_EMAIL})
         )
 
     for collection, role_name in collections_map:
@@ -102,7 +104,7 @@ async def login_user(data: LoginRequest):
 
     return UserResponse(
         id=str(user["_id"]),
-        email=user["email"],
+        email=user.get("email", ""),
         user_type=user_type,
         message="Login successful!",
         access_token=access_token,

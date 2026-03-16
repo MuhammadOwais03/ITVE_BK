@@ -32,6 +32,7 @@ class Settings(BaseModel):
     ADMIN_PHONE: str = _env.get("phone", "")
     ADMIN_USERNAME: str = _env.get("username", "")
     ADMIN_SECRET_CODE: str = _env.get("admin_code", "")
+    ADMIN_ID: str = _env.get("admin_id", "65f01234567890abcdef1234")
 
     # Business Logic
     UPLOAD_DIR: str = "uploads"

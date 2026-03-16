@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from api.deps import get_current_user
 from core.database import get_database
+from core.security import hash_password
 from models.worker import AddWorker
 from datetime import datetime
 
@@ -42,6 +43,7 @@ async def add_worker(data: AddWorker, current_user=Depends(get_current_user)):
         "cnic": data.cnic,
         "job_type": data.job_type,
         "username": data.username,
+        "password": hash_password(data.password),
         "user_type": "worker",
         "is_active": True,
         "created_at": datetime.now()
